@@ -12,10 +12,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "engines": {
-    "node": "19.6.0",
-    "npm": "9.4.0"
-},
   "devDependencies": {
     "concurrently": "^5.1.0"
   }
