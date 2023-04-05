@@ -1,11 +1,19 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/BooksDB');
-{
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
-};
+const uri = 'mongodb://127.0.0.1:27017/BooksDB';
 
-module.exports = mongoose.connection;
+async function connect() {
+  try {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    });
+    console.log('Connected to MongoDB Atlas');
+  } catch (err) {
+    console.log('Failed to connect to MongoDB Atlas:', err);
+  }
+}
+
+module.exports = connect;

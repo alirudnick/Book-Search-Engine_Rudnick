@@ -1,49 +1,55 @@
-// use this to decode a token and get the user's information out of it
+// Import jwt-decode package to decode JWT tokens
 import decode from 'jwt-decode';
 
-// create a new class to instantiate for a user
+// AuthService class that holds methods for user authentication
 class AuthService {
-  // get user data
+  // Method to get the user's profile data from a JWT token
   getProfile() {
+    // Retrieve JWT token from local storage and decode it using jwt-decode package
     return decode(this.getToken());
   }
 
-  // check if user's logged in
+  // Method to check if the user is logged in
   loggedIn() {
-    // Checks if there is a saved token and it's still valid
+    // Retrieve JWT token from local storage
     const token = this.getToken();
-    return !!token && !this.isTokenExpired(token); // handwaiving here
+    // Check if the token is not null/undefined, and if the token is not expired
+    return !!token && !this.isTokenExpired(token);
   }
 
-  // check if token is expired
+  // Method to check if a JWT token has expired
   isTokenExpired(token) {
     try {
+      // Decode the token
       const decoded = decode(token);
+      // Check if the token has an expiration date, and if it has passed
       if (decoded.exp < Date.now() / 1000) {
-        return true;
-      } else return false;
+        return true; // Token has expired
+      } else {
+        return false; // Token is still valid
+      }
     } catch (err) {
-      return false;
+      return false; // Error occurred decoding token, assume it is still valid
     }
   }
 
+  // Method to retrieve JWT token from local storage
   getToken() {
-    // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
   }
 
+  // Method to save JWT token to local storage and redirect user to home page
   login(idToken) {
-    // Saves user token to localStorage
-    localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    localStorage.setItem('id_token', idToken); // Save token to local storage
+    window.location.assign('/'); // Redirect user to home page
   }
 
+  // Method to remove JWT token from local storage and redirect user to home page
   logout() {
-    // Clear user token and profile data from localStorage
-    localStorage.removeItem('id_token');
-    // this will reload the page and reset the state of the application
-    window.location.assign('/');
+    localStorage.removeItem('id_token'); // Remove token from local storage
+    window.location.assign('/'); // Redirect user to home page
   }
 }
 
+// Export a new instance of the AuthService class
 export default new AuthService();
