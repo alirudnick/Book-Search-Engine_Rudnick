@@ -18,5 +18,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
+  },
+  "engines": {
+    "node": "18.12.1"
   }
 }
